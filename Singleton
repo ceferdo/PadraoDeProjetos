@@ -20,7 +20,5 @@ public class ConexaoBanco
 }
 
 public static Main(string[] args){
-
     ConexaoBanco conect = ConexaoBanco.ConexaoBanco();
-    
 }
