@@ -1,101 +1,94 @@
-using System;
-using System.Collections.Generic;
- 
- 
-namespace _composite
-{
-    class Program
+class Program
     {
         static void Main(string[] args)
         {
-            IPessoa Anita = new Arquivo("composite.png");
+            IPessoa pai = new Homem("paulo");
+          
+            IPessoa mae = new Mulher("Maria");
+            IPessoa filho1 = new Homem("filho1");
+            IPessoa filho2 = new Mulher("filho2");
  
  
-            IObjeto pastaPrincipal = new Pasta("arquivos");
-            IObjeto pasta1 = new Pasta("imagens");
-            IObjeto pasta2 = new Pasta("office");
+            mae.Filho(filho1);
+            mae.Filho(filho2);
+ 
+            filho2.Filho(new Homem("Carlos"));
  
  
-            pastaPrincipal.Adicionar(pasta1);
-            pastaPrincipal.Adicionar(pasta2);
- 
- 
-            pasta1.Adicionar(arq1);
-            pasta1.Adicionar(arq2);
- 
- 
-            pasta2.Adicionar(arq3);
-            pasta2.Adicionar(new Arquivo("composite.pdf"));
- 
- 
-            Console.WriteLine(pastaPrincipal);
+            Console.WriteLine(mae);
  
  
             Console.ReadKey();
         }
     }
 
-    interface IPessoa
+interface IPessoa
     {
         String Nome { get; set; }
-
-        void Adicionar(IPessoa o);
+        
+        void Filho(IPessoa o);
     }
 
     class Homem : IPessoa
     {
         public String Nome { get; set; }
  
- 
-        public Arquivo(String nome)
+        public Homem(String nome)
         {
             this.Nome = nome;
         }
-
-        public void Adicionar(IPessoa o)
+ 
+     
+        public void Filho(IPessoa o)
         {
-            Console.Write("Não permitido ter filhos");
+            Console.Write("não gera filho");
         }
-
+ 
         public override string ToString()
         {
-            return String.Format("{0}{1}\n",
-                new String(' ', this.Nivel),
-                this.Nome);
+            return String.Format("{0}\n",this.Nome);
         }
     }
- 
+
     class Mulher : IPessoa
     {
-        List filho;
         
+        List filho;
+ 
+ 
         public String Nome { get; set; }
+        public int QtFilho { get; set; }
  
  
-        public Pasta(String nome)
+        public Mulher(String nome)
         {
             this.Nome = nome;
             this.filho = new List();
         }
  
-        public void Adicionar(IPessoa o)
+ 
+        //Operation
+        public void Filho(IPessoa o)
         {
-            o.QtdFilhos = this.QtdFilhos + 2;
+            o.QtFilho = this.QtFilho + 2;
             this.filho.Add(o);
         }
-        
+ 
+ 
+        //Operation
         public override string ToString()
         {
             String retorno = String.Format("{0}{1}\n",
-                new String(' ', this.QtdFilhos),
+                new String(' ', this.QtFilho),
                 this.Nome);
-
+ 
+ 
             foreach (var item in this.conteudo)
             {
                 retorno += item;
             }
-            
+ 
+ 
             return retorno;
         }
     }
-}
